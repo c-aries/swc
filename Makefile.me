@@ -1,0 +1,48 @@
+CC = gcc
+CFLAGS = -Wall -Werror -Wcast-align -g
+LDFLAGS =
+
+SWCOBJECT = swc.o opt.o video.o screen.o common.o image.o colorspace.o
+TESTOBJECT = test.o common.o
+
+SDLCFLAGS = `pkg-config --cflags sdl`
+SDLLIBS = `pkg-config --libs sdl`
+IMLIB2CFLAGS = `imlib2-config --cflags`
+IMLIB2LIBS = `imlib2-config --libs`
+
+all: swc
+
+swc: $(SWCOBJECT)
+	$(CC) $(LDFLAGS) $(SDLLIBS) $(IMLIB2LIBS) $(SWCOBJECT) -o $@
+
+test: $(TESTOBJECT)
+	$(CC) $(LDFLAGS) $(TESTOBJECT) -o $@
+
+swc.o: swc.c
+	$(CC) $(CFLAGS) $(SDLCFLAGS) -c $<
+
+opt.o: opt.c opt.h
+	$(CC) $(CFLAGS) -c $<
+
+video.o: video.c video.h
+	$(CC) $(CFLAGS) -c $<
+
+screen.o: screen.c screen.h
+	$(CC) $(CFLAGS) $(SDLCFLAGS) $(IMLIB2CFLAGS) -c $<
+
+common.o: common.c common.h
+	$(CC) $(CFLAGS) -c $<
+
+image.o: image.c image.h
+	$(CC) $(CFLAGS) $(IMLIB2CFLAGS) -c $<
+
+colorspace.o: colorspace.c colorspace.h
+	$(CC) $(CFLAGS) -c $<
+
+clean:
+	rm -f *.o *~ swc test
+
+media-clean:
+	rm -f *~ swc*.jpeg
+
+.PHONY: all clean media-clean
