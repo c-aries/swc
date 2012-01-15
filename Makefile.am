@@ -1,2 +1,5 @@
-bin_PROGRAMS = swc
-swc_SOURCES = swc.c
+SUBDIRS = src
+
+ACLOCAL_AMFLAGS = -I m4
+
+doc_DATA = COPYING AUTHORS

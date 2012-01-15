@@ -1,0 +1,28 @@
+AC_PREREQ(2.67)
+
+AC_INIT([swc], [0.01], [babyaries2@gmail.com])
+
+AC_CONFIG_SRCDIR([src/swc.c])
+AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_MACRO_DIR([m4])
+AM_INIT_AUTOMAKE([-Wall -Werror])
+
+AC_PROG_CC
+AM_PROG_CC_C_O
+
+# sdl
+SWC_MODULES="sdl >= 1.2.14 imlib2 >= 1.4.2"
+PKG_CHECK_MODULES(SWC,$SWC_MODULES)
+AC_SUBST(SWC_CFLAGS)
+AC_SUBST(SWC_LIBS)
+
+# libtool
+AC_PROG_LIBTOOL
+LT_PREREQ([2.2.6])
+LT_INIT()
+
+AC_CONFIG_FILES([src/Makefile
+		Makefile])
+
+AC_OUTPUT
